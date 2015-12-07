@@ -4,17 +4,16 @@ import getpass
 import paramiko
 import time
 
-# make outputs noisy during testing
-debug = False 
-
 # basics
 # use basic config file mgmt
 cfg_file = file('ccme_server.cfg')
 ccme_config = Config(cfg_file)
 
 # we need to talk to a CCME box obvs.
-ccme_addr = raw_input('CCME Server IP: ')
-ccme_port = 22022
+#ccme_addr = raw_input('CCME Server IP: ')
+ccme_addr = ccme_config.ccme_server_addr
+#ccme_port = 22022
+ccme_port = ccme_config.ccme_server_port
 
 # we need username and passwords
 # get username
@@ -26,6 +25,8 @@ if not username:
 # get password
 password = getpass.getpass("Password: ")
 
+# debug mode?
+debug = ccme_config.debug
 # connect to the ccme
 try: 
     client = paramiko.SSHClient()
