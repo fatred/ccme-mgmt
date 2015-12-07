@@ -10,9 +10,7 @@ cfg_file = file('ccme_server.cfg')
 ccme_config = Config(cfg_file)
 
 # we need to talk to a CCME box obvs.
-#ccme_addr = raw_input('CCME Server IP: ')
 ccme_addr = ccme_config.ccme_server_addr
-#ccme_port = 22022
 ccme_port = ccme_config.ccme_server_port
 
 # we need username and passwords
@@ -32,7 +30,7 @@ try:
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    print('Connecting...')
+    print('Connecting to %s...') % ccme_addr
     client.connect(ccme_addr, ccme_port, username, password)
 
     # hopefully that worked
@@ -67,7 +65,10 @@ try:
     # prove it worked
     ccme_hostname = cisco_conf.find_objects(r"^hostname")[0].text[9:]
     ccme_version = cisco_conf.find_objects(r"^version")[0].text[-4:]
-    print("\tConfig Parsed: %s: | %s") % (ccme_hostname, ccme_version)
+    handsets = cisco_conf.find_objects(r'^ephone ')
+    dirnums = cisco_conf.find_objects(r'^ephone-dn ')
+    print("\tConfig Parsed: %s | %s") % (ccme_hostname, ccme_version)
+    print("\t %s handsets | %s dir nums") % (len(handsets), len(dirnums))
 
     # cleanup
     session.close()
