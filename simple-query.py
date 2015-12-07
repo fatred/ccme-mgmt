@@ -1,10 +1,17 @@
 from ciscoconfparse import CiscoConfParse
+from config import Config
 import getpass
 import paramiko
 import time
 
-debug = True
+# make outputs noisy during testing
+debug = False 
+
 # basics
+# use basic config file mgmt
+cfg_file = file('ccme_server.cfg')
+ccme_config = Config(cfg_file)
+
 # we need to talk to a CCME box obvs.
 ccme_addr = raw_input('CCME Server IP: ')
 ccme_port = 22022
@@ -23,7 +30,7 @@ password = getpass.getpass("Password: ")
 try: 
     client = paramiko.SSHClient()
     client.load_system_host_keys()
-    client.set_missing_host_key_policy(paramiko.WarningPolicy())
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     print('Connecting...')
     client.connect(ccme_addr, ccme_port, username, password)
 
