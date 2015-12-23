@@ -24,12 +24,12 @@ ccme_port = ccme_config.ccme_server_port
 # we need username and passwords
 # get username
 default_username = getpass.getuser()
-username = raw_input('Username [%s]: ' % default_username)
+username = raw_input('[*] Username [%s]: ' % default_username)
 if not username:
     username = default_username
 
 # get password
-password = getpass.getpass("Password: ")
+password = getpass.getpass("[*] Password: ")
 
 # debug mode?
 debug = ccme_config.debug
@@ -38,7 +38,7 @@ try:
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    print('Connecting to %s...') % ccme_addr
+    print('[*] Connecting to %s...') % ccme_addr
     client.connect(ccme_addr, ccme_port, username, password)
 
     # hopefully that worked
@@ -75,15 +75,21 @@ try:
     ccme_version = cisco_conf.find_objects(r"^version")[0].text[-4:]
     handsets = cisco_conf.find_objects(r'^ephone ')
     dirnums = cisco_conf.find_objects(r'^ephone-dn ')
-    print("\tConfig Parsed: %s | %s") % (ccme_hostname, ccme_version)
-    print("\t %s handsets | %s dir nums") % (len(handsets), len(dirnums))
+    print("[*] Config Parsed: %s | %s") % (ccme_hostname, ccme_version)
+    print("[*] %s handsets | %s dir nums") % (len(handsets), len(dirnums))
+    
+    """
+        regexing the handsets
+        ephone num
+            print "ephone num %s" % re.search(re.compile(ur'^ephone\s*(\d*)$'), handset.ioscfg[0]).group(1)
 
+    """
     # cleanup
     session.close()
     client.close()
 
 except Exception as e:
-    print('*** Caught exception: %s: %s' % (e.__class__, e))
+    print('[E] Caught exception: %s: %s' % (e.__class__, e))
     traceback.print_exc()
     try:
         client.close()
