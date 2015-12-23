@@ -1,3 +1,11 @@
+#!/usr/local/env python
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+"""
+	A Simple CCME Query Script
+
+Author: John Howard <fatred+ccmeapp@gmail.com>
+
+"""
 from ciscoconfparse import CiscoConfParse
 from config import Config
 import getpass
