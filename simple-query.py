@@ -143,6 +143,9 @@ try:
         cur.execute('INSERT OR REPLACE INTO handsets (ephone_id, desc, "mac-address", type, button, "ephone-template") VALUES (?,?,?,?,?,?)', (ephone_id.group(1), desc_value, mac_addr.group(1), type_num.group(1), button_num.group(1), templ_value))
         # be shouty
         print "[*] Added ephone %s|%s to Database!" % (ephone_id.group(1), mac_addr.group(1))
+    
+    # commit data to db
+    cur.commit()
 
     # cleanup
     session.close()
