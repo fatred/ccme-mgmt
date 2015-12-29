@@ -106,7 +106,7 @@ try:
         # mac address
         mac_addr = re.search(re.compile(ur'\smac-address\s*(\w{4}\.\w{4}\.\w{4})'), str(handset.ioscfg))
         # type
-        type_num = re.search(re.compile(ur'\s+type\s+([^\'])'), str(handset.ioscfg))
+        type_num = re.search(re.compile(ur'\s+type\s+([^\']+)'), str(handset.ioscfg))
         # button
         button_num = re.search(re.compile(ur'\s+button\s+\d\:([^\']+)'), str(handset.ioscfg))
         # ephone-templ
