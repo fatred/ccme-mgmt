@@ -145,7 +145,7 @@ try:
         print "[*] Added ephone %s|%s to Database!" % (ephone_id.group(1), mac_addr.group(1))
     
     # commit data to db
-    cur.commit()
+    db.commit()
 
     # cleanup
     session.close()
