@@ -1,4 +1,0 @@
-ccme_server_addr: '127.0.0.1'
-ccme_username: 'ccme_user'
-ccme_password: 'ccme_password'
-debug: True
