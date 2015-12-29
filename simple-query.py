@@ -125,7 +125,7 @@ try:
         
         if not mac_addr:
             print "[E] No MAC Address on ephone %s" % ephone_id.group(1)
-            break
+            pass
         
         if not type_num:
             print "[W] No Type provided for ephone %s, default to 7911" % ephone_id.group(1)
