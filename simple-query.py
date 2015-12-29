@@ -13,6 +13,7 @@ import paramiko
 import time
 import re
 import sqlite3
+import traceback
 
 # basics
 # use basic config file mgmt
