@@ -14,6 +14,7 @@ import time
 import re
 import sqlite3
 import sys, traceback
+import pickle
 
 # basics
 # use basic config file mgmt
@@ -110,10 +111,8 @@ try:
         button_num = re.search(re.compile(ur'\s+button\s+\d\:([^\']+)'), str(handset.ioscfg))
         # ephone-templ
         templ_num = re.search(re.compile(ur'\s+ephone-template\s+([^\']+)'), str(handset.ioscfg))
-        
-        
-        # cur.execute('INSERT OR REPLACE INTO handsets (ephone_id) VALUES (?)', ephone_id.group(1)) 
-        #cur.execute('INSERT OR REPLACE INTO handsets (ephone_id,desc) VALUES (?,?)', (ephone_id.group(1), desc.group(1)))
+        # config pickle
+        cfg_pickle = pickle.dumps(handset.ioscfg)
         
         if not ephone_id:
             print "[E] No ephone number found in record"
@@ -140,7 +139,8 @@ try:
         else: 
             templ_value = templ_num.group(1)
 
-        cur.execute('INSERT OR REPLACE INTO handsets (ephone_id, desc, "mac-address", type, button, "ephone-template") VALUES (?,?,?,?,?,?)', (ephone_id.group(1), desc_value, mac_addr.group(1), type_num.group(1), button_num.group(1), templ_value))
+        cur.execute('INSERT OR REPLACE INTO handsets (ephone_id, desc, "mac-address", type, button, "ephone-template", raw_cfg_pickle) VALUES (?,?,?,?,?,?,?)', (ephone_id.group(1), desc_value, mac_addr.group(1), type_num.group(1), button_num.group(1), templ_value), cfg_pickle)
+
         # be shouty
         print "[*] Added ephone %s|%s to Database!" % (ephone_id.group(1), mac_addr.group(1))
     
